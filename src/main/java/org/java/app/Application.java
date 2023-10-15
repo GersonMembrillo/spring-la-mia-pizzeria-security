@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.java.app.user.Role;
+import org.java.app.user.User;
+import org.java.app.user.RoleServ;
+import org.java.app.user.UserServ;
 
 
 @SpringBootApplication
@@ -19,6 +25,12 @@ public class Application implements CommandLineRunner {
 	
 	@Autowired
 	private IngredienteServ ingredienteServ;
+	
+	@Autowired
+	private RoleServ roleServ;
+
+	@Autowired
+	private UserServ userServ;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -94,5 +106,20 @@ public class Application implements CommandLineRunner {
 		offertaServ.save(offerta1);
 		offertaServ.save(offerta2);
 		offertaServ.save(offerta3);
+		
+		Role admin = new Role("ADMIN");
+		Role user = new Role("USER");
+
+		roleServ.save(admin);
+		roleServ.save(user);
+
+		final String pwsAdmin = new BCryptPasswordEncoder().encode("pws");
+		final String pwsUser = new BCryptPasswordEncoder().encode("pws");
+
+		User admin1 = new User("PippoAdmin", pwsAdmin, admin, user);
+		User user1 = new User("PippoUser", pwsUser, user);
+
+		userServ.save(admin1);
+		userServ.save(user1);
 	}
 }
