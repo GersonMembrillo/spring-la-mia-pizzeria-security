@@ -24,4 +24,3 @@ public class RoleServ {
 		roleRepo.save(role);
 	}
 }
-

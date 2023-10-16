@@ -107,19 +107,21 @@ public class Application implements CommandLineRunner {
 		offertaServ.save(offerta2);
 		offertaServ.save(offerta3);
 		
-		Role admin = new Role("ADMIN");
-		Role user = new Role("USER");
-
-		roleServ.save(admin);
-		roleServ.save(user);
-
-		final String pwsAdmin = new BCryptPasswordEncoder().encode("pws");
+		
+		Role userRole = new Role("USER");
+		Role adminRole = new Role("ADMIN");
+		
+		roleServ.save(userRole);
+		roleServ.save(adminRole);
+		
 		final String pwsUser = new BCryptPasswordEncoder().encode("pws");
-
-		User admin1 = new User("PippoAdmin", pwsAdmin, admin, user);
-		User user1 = new User("PippoUser", pwsUser, user);
-
-		userServ.save(admin1);
-		userServ.save(user1);
+		final String pwsAdmin = new BCryptPasswordEncoder().encode("pws");
+		
+		User ciccioUser = new User("ciccioUser", pwsUser, userRole);
+		User ciccioAdmin = new User("ciccioAdmin", pwsAdmin, adminRole);
+		
+		userServ.save(ciccioUser);
+		userServ.save(ciccioAdmin);
+		
 	}
 }

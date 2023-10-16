@@ -7,41 +7,44 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 public class AuthConfig {
 
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-		http.authorizeHttpRequests().requestMatchers("/create").hasAuthority("ADMIN")
-		.requestMatchers("/update/**").hasAuthority("ADMIN")
-		.requestMatchers("/delete/**").hasAuthority("ADMIN")
-		.requestMatchers("/ingredients/create").hasAuthority("ADMIN")
-		.requestMatchers("/offerta/**").hasAuthority("ADMIN")
-		.requestMatchers("/**").permitAll().and().formLogin().defaultSuccessUrl("/").and().logout();
-
-		return http.build();
+	SecurityFilterChain filterChain(HttpSecurity http)
+		throws Exception {
+			 
+			http.authorizeHttpRequests()
+		        .requestMatchers("/login").permitAll()
+		        .requestMatchers("/").hasAnyAuthority("USER", "ADMIN")
+		        .requestMatchers(new RegexRequestMatcher("/[0-9]+", null)).hasAnyAuthority("USER", "ADMIN")
+		        .requestMatchers("/**").hasAuthority("ADMIN")
+		        .and().formLogin()
+		        .and().logout();
+			
+			return http.build();
 	}
-
+	
 	@Bean
 	UserServ userDetailsService() {
 		return new UserServ();
 	}
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-
+    @Bean
+    PasswordEncoder passwordEncoder() {
+		
 		return new BCryptPasswordEncoder();
 	}
-
-	@Bean
-	DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
-
-		return authProvider;
-	}
+    
+    @Bean
+    DaoAuthenticationProvider authenticationProvider() {
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+   
+      authProvider.setUserDetailsService(userDetailsService());
+      authProvider.setPasswordEncoder(passwordEncoder());
+   
+      return authProvider;
+    }
 }

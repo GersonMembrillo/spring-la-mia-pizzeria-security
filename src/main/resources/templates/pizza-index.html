@@ -10,11 +10,11 @@
 
 <body>
 	
-	<a class="btn btn-info text-light fw-bold" th:href="@{/login}">Sign in</a>
-			<a class="btn btn-info text-light fw-bold" th:href="@{/logout}">Logout</a>
+	<th:block th:replace="~{nav}" />
+	<th:block th:include="login.html :: login"></th:block>
 	<h1 sec:authorize="hasAnyAuthority('USER')"> Logged user: </h1>
 
-	<th:block th:replace="~{nav}" />
+	
 	<div class="text-center">
 		<h1 class="m-4">Pizze!!</h1>
 

@@ -13,26 +13,23 @@ public class UserServ implements UserDetailsService {
 
 	@Autowired
 	private UserRepo userRepo;
-
+	
 	public List<User> findAll() {
-
+		
 		return userRepo.findAll();
 	}
-
 	public User findById(int id) {
-
+		
 		return userRepo.findById(id).get();
 	}
-
 	public void save(User user) {
-
+		
 		userRepo.save(user);
 	}
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+		
 		return userRepo.findByUsername(username);
 	}
 }
-
