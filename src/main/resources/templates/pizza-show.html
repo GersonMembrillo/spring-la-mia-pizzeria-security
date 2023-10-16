@@ -27,9 +27,9 @@
 				<hr>
 				<div class="text-center">
 
-					<a class="btn btn-primary badge" th:href="@{edit/{id}(id=*{id})}">Modifica</a>
+					<a class="btn btn-primary badge" th:href="@{edit/{id}(id=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')">Modifica</a>
 					<form style="display: inline;" th:action="@{delete/{id}(id=*{id})}" method="POST">
-						<button type="submit" class="btn btn-danger badge">Elimina</button>
+						<button type="submit" class="btn btn-danger badge" sec:authorize="hasAnyAuthority('ADMIN')">Elimina</button>
 					</form>
 
 				</div>
@@ -57,14 +57,14 @@
 	<div class="text-center">
 
 		<h5>Offerte</h5>
-		<a class="btn btn-success mb-3" th:href="@{/offerta/create/{id}(id=*{id})}">Aggiuni Offerta</a>
+		<a class="btn btn-success mb-3" th:href="@{/offerta/create/{id}(id=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')">Aggiuni Offerta</a>
 		<ul class="list-unstyled">
 			<li th:each="so : *{offerts}" th:object="${so}" class="card card-body mb-2"
 				style="width: 350px; margin: 0 auto;">
 				[[*{title}]] <br />
 				[[*{startDate}]] ~ [[*{endDate}]]
 				<a class="badge btn btn-primary mt-2" th:href="@{/offerta/edit/{id}(id=*{id})}"
-					style="width: 100px; margin: 0 auto;">Modifica</a>
+					style="width: 100px; margin: 0 auto;" sec:authorize="hasAnyAuthority('ADMIN')">Modifica</a>
 			</li>
 		</ul>
 

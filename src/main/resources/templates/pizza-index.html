@@ -11,9 +11,8 @@
 <body>
 	
 	<th:block th:replace="~{nav}" />
-	<th:block th:include="login.html :: login"></th:block>
-	<h1 sec:authorize="hasAnyAuthority('USER')"> Logged user: </h1>
-
+	
+	
 	
 	<div class="text-center">
 		<h1 class="m-4">Pizze!!</h1>
@@ -79,6 +78,8 @@
 		</script>
 
 	</div>
+	
+	<th:block th:include="login.html :: login"></th:block>
 
 	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
 </body>
